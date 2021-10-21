@@ -13,25 +13,6 @@ int strokeColor[] = { 0, 0, 0, 255 };
 bool isFill = true;
 bool isStroke = true;
 float textSize = 16;
-int fontAtlas[1024][384];
-
-void loadFont() {
-  std::ifstream fontFile;
-  fontFile.open("font.ppm", std::fstream::in);
-  int i = -3;
-  std::string word;
-  while(fontFile >> word){
-    if(i>0){
-      fontAtlas[i%1024][i/1024] = int(word);
-      if(int(word)==255){
-        std::cout << "Value is 255 at: " << i+3 << std::endl;
-      }
-    }
-    i++;
-  }
-  
-
-}
 
 void background(int a, int b, int c) {
   bgColor[0] = a;
@@ -44,10 +25,6 @@ void background(int a, int b, int c) {
       }
     }
   }
-}
-
-void size(int localWidth, int localHeight) {
-  background(bgColor[0], bgColor[1], bgColor[2]);
 }
 
 void stroke(int a, int b, int c, int d = 255) {
@@ -215,6 +192,7 @@ void text(char toPrint[], int xLoc, int yLoc) {
     }
   }
 }
+
 void clear() {
   // Clears the screen by replacing every pixel value to background
   for (int i = 0; i < width; i++) {
