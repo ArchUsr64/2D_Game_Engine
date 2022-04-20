@@ -1,2 +1,6 @@
-# Pirake
-This is a c++ header file that aims to implement the very basic 2D features of the popular processing library for java. The end file generated is in ppm format. 
+# 2D_Game_Engine
+SDL abstraction along with basic physics capabilities
+# Building and Execution
+Run the following command inside the program directory with [SDL](https://www.libsdl.org) and [GCC](https://gcc.gnu.org/) installed
+
+`gcc -o bin/main -lm -lSDL2 src/main.c && ./bin/main`
