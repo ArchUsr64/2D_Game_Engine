@@ -46,36 +46,3 @@ void draw_line(float point_1_x, float point_1_y, float point_2_x,
                float point_2_y) {
   SDL_RenderDrawLine(RENDERER_PTR, point_1_x, point_1_y, point_2_x, point_2_y);
 }
-
-void draw_circle(int centre_x, int centre_y, int radius) {
-  const int diameter = (radius * 2);
-
-  int x = (radius - 1);
-  int y = 0;
-  int tx = 1;
-  int ty = 1;
-  int error = (tx - diameter);
-
-  while (x >= y) {
-    draw_point(centre_x + x, centre_y - y);
-    draw_point(centre_x + x, centre_y + y);
-    draw_point(centre_x - x, centre_y - y);
-    draw_point(centre_x - x, centre_y + y);
-    draw_point(centre_x + y, centre_y - x);
-    draw_point(centre_x + y, centre_y + x);
-    draw_point(centre_x - y, centre_y - x);
-    draw_point(centre_x - y, centre_y + x);
-
-    if (error <= 0) {
-      ++y;
-      error += ty;
-      ty += 2;
-    }
-
-    if (error > 0) {
-      --x;
-      tx += 2;
-      error += (tx - diameter);
-    }
-  }
-}
