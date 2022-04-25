@@ -18,7 +18,7 @@ const int PHYSICS_UPDATE_FREQUENCY = 100;
 const float FRICTION = 1;
 const float FORCE_STRENGTH = 5;
 Entity player = {
-    .position = {0, 0}, .collision_box = {.2, .2}, .texture_path = "res/1.png"};
+    .position = {0, 0}, .collision_box = {.2, .2}, .render_collision_box = true, .texture_path = "res/1.png"};
 
 SDL_Window *WINDOW_PTR;
 SDL_Renderer *RENDERER_PTR;

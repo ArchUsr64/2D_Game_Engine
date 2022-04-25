@@ -48,14 +48,18 @@ void draw_line(float point_1_x, float point_1_y, float point_2_x,
 }
 
 void render_entity(Entity *entity) {
-  SDL_Rect entity_rect;
-  entity_rect.w = map_to_range(entity->collision_box.x, 0, 1, 0, WINDOW_WIDTH);
-  entity_rect.h = map_to_range(entity->collision_box.y, 0, 1, 0, WINDOW_HEIGHT);
-  entity_rect.x = map_to_range(entity->position.x, -1, 1, 0, WINDOW_WIDTH);
-  entity_rect.y = map_to_range(entity->position.y, -1, 1, WINDOW_HEIGHT, 0);
-  entity_rect.x -= entity_rect.w / 2;
-  entity_rect.y -= entity_rect.h / 2;
-  SDL_SetRenderDrawColor(RENDERER_PTR, 255, 255, 255, 255);
-  SDL_RenderDrawRect(RENDERER_PTR, &entity_rect);
-  SDL_SetRenderDrawColor(RENDERER_PTR, 0, 0, 0, 255);
+  if (entity->render_collision_box) {
+    SDL_Rect collision_box;
+    collision_box.w =
+        map_to_range(entity->collision_box.x, 0, 1, 0, WINDOW_WIDTH);
+    collision_box.h =
+        map_to_range(entity->collision_box.y, 0, 1, 0, WINDOW_HEIGHT);
+    collision_box.x = map_to_range(entity->position.x, -1, 1, 0, WINDOW_WIDTH);
+    collision_box.y = map_to_range(entity->position.y, -1, 1, WINDOW_HEIGHT, 0);
+    collision_box.x -= collision_box.w / 2;
+    collision_box.y -= collision_box.h / 2;
+    SDL_SetRenderDrawColor(RENDERER_PTR, 255, 255, 255, 255);
+    SDL_RenderDrawRect(RENDERER_PTR, &collision_box);
+    SDL_SetRenderDrawColor(RENDERER_PTR, 0, 0, 0, 255);
+  }
 }
