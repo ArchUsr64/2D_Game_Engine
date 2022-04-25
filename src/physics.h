@@ -4,10 +4,13 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 
+typedef enum movement_control_type {KEYBOARD, MOUSE,} Movement_control_type;
+
 typedef struct entity {
   vec2 position;
   vec2 velocity;
   vec2 acceleration;
+  Movement_control_type movement_control_type;
   float mass;
   vec2 collision_box;
   bool render_collision_box;
