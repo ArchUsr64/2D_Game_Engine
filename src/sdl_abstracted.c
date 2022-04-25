@@ -73,9 +73,9 @@ void render_entity(Entity *entity) {
       RUNTIME_ERROR = true;
     }
   }
+  SDL_RenderCopy(RENDERER_PTR, entity->texture_ptr, NULL, &entity_box);
   if (entity->render_collision_box)
     SDL_RenderDrawRect(RENDERER_PTR, &entity_box);
-  SDL_RenderCopy(RENDERER_PTR, entity->texture_ptr, NULL, &entity_box);
 }
 
 void sdl_quit() {

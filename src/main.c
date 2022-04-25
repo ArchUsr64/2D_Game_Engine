@@ -21,6 +21,7 @@ int main() {
   while (!USER_QUIT && !RUNTIME_ERROR) {
     set_draw_colour(0, 0, 0, 1);
     SDL_RenderClear(RENDERER_PTR);
+    set_draw_colour(1, 1, 1, 1);
     render_entity(&player);
     set_draw_colour(1, 1, 1, 1);
     SDL_RenderPresent(RENDERER_PTR);

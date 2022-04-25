@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 
+typedef enum keyboard_control_type {FORCE, MOMENTUM,} Keyboard_control_type;
 typedef enum movement_control_type {KEYBOARD, MOUSE,} Movement_control_type;
 
 typedef struct entity {
@@ -11,8 +12,9 @@ typedef struct entity {
   vec2 velocity;
   vec2 acceleration;
   Movement_control_type movement_control_type;
-  float mass;
+  Keyboard_control_type keyboard_control_type;
   vec2 collision_box;
+  float mass;
   bool render_collision_box;
   char* texture_path;
   SDL_Texture* texture_ptr;
