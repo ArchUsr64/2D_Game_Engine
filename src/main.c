@@ -18,14 +18,15 @@ int main() {
   pthread_create(&input_thread_id, NULL, input_thread, NULL);
   pthread_t physics_thread_id;
   pthread_create(&physics_thread_id, NULL, physics_thread, NULL);
-  while (!USER_QUIT) {
+  while (!USER_QUIT && !RUNTIME_ERROR) {
     set_draw_colour(0, 0, 0, 1);
     SDL_RenderClear(RENDERER_PTR);
     render_entity(&player);
     set_draw_colour(1, 1, 1, 1);
     SDL_RenderPresent(RENDERER_PTR);
   }
+  sdl_quit();
   pthread_join(input_thread_id, NULL);
   pthread_join(physics_thread_id, NULL);
-  return 0;
+  return (RUNTIME_ERROR)? -1: 0;
 }
