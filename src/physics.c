@@ -7,13 +7,13 @@
 #include "util.h"
 
 void wall_colission(Entity *entity) {
-  if (entity->position.x > (1 - entity->collision_box.x))
+  if (entity->position.x > (1 - entity->collision_box.x / 2))
     entity->velocity.x = -1 * (abs(entity->velocity.x));
-  else if (entity->position.x < -(1 - entity->collision_box.x))
+  else if (entity->position.x < -(1 - entity->collision_box.x / 2))
     entity->velocity.x = abs(entity->velocity.x);
-  if (entity->position.y > (1 - entity->collision_box.y))
+  if (entity->position.y > (1 - entity->collision_box.y / 2))
     entity->velocity.y = -1 * (abs(entity->velocity.y));
-  else if (entity->position.y < -(1 - entity->collision_box.y))
+  else if (entity->position.y < -(1 - entity->collision_box.y / 2))
     entity->velocity.y = abs(entity->velocity.y);
 }
 
@@ -35,8 +35,10 @@ void update_kinematics(Entity *entity, float update_interval) {
 bool entity_to_entity_colission_detection(Entity *entity_1, Entity *entity_2) {
   float dist_x = abs(entity_1->position.x - entity_2->position.x);
   float dist_y = abs(entity_1->position.y - entity_2->position.y);
-  float width_sum = abs(entity_1->collision_box.x + entity_2->collision_box.x);
-  float height_sum = abs(entity_1->collision_box.y + entity_2->collision_box.y);
+  float width_sum =
+      abs(entity_1->collision_box.x / 2 + entity_2->collision_box.x / 2);
+  float height_sum =
+      abs(entity_1->collision_box.y / 2 + entity_2->collision_box.y / 2);
   if (dist_x < width_sum && dist_y < height_sum) {
     return true;
   }
@@ -45,9 +47,9 @@ bool entity_to_entity_colission_detection(Entity *entity_1, Entity *entity_2) {
 
 void handle_entity_mouse_input(Entity *entity) {
   vec2 MOUSE_VECTOR = vec2_new(MOUSE_X, MOUSE_Y);
-  if ((1 - (abs(MOUSE_VECTOR.x))) >= entity->collision_box.x)
+  if ((1 - (abs(MOUSE_VECTOR.x))) >= entity->collision_box.x / 2)
     entity->position.x = MOUSE_VECTOR.x;
-  if ((1 - (abs(MOUSE_VECTOR.y))) >= entity->collision_box.y)
+  if ((1 - (abs(MOUSE_VECTOR.y))) >= entity->collision_box.y / 2)
     entity->position.y = MOUSE_VECTOR.y;
 }
 

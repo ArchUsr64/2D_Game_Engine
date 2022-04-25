@@ -51,8 +51,10 @@ void draw_line(float point_1_x, float point_1_y, float point_2_x,
 
 void render_entity(Entity *entity) {
   SDL_Rect entity_box;
-  entity_box.w = map_to_range(entity->collision_box.x, 0, 1, 0, WINDOW_WIDTH);
-  entity_box.h = map_to_range(entity->collision_box.y, 0, 1, 0, WINDOW_HEIGHT);
+  entity_box.w =
+      map_to_range(entity->collision_box.x / 2, 0, 1, 0, WINDOW_WIDTH);
+  entity_box.h =
+      map_to_range(entity->collision_box.y / 2, 0, 1, 0, WINDOW_HEIGHT);
   entity_box.x = map_to_range(entity->position.x, -1, 1, 0, WINDOW_WIDTH);
   entity_box.y = map_to_range(entity->position.y, -1, 1, WINDOW_HEIGHT, 0);
   entity_box.x -= entity_box.w / 2;
