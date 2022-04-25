@@ -8,6 +8,7 @@ typedef struct entity {
   vec2 acceleration;
   float mass;
   vec2 collision_box;
+  char* texture_path;
 } Entity;
 
 typedef enum direction {
