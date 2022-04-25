@@ -53,9 +53,17 @@ void handle_entity_mouse_input(Entity *entity) {
 void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
   vec2 INPUT_VECTOR =
       vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT), ((int)KEY_UP - (int)KEY_DOWN));
-  wall_colission(&player);
-  apply_net_force(&player, &INPUT_VECTOR);
-  apply_friction(&player);
+  switch (entity->keyboard_control_type) {
+  case FORCE:
+    INPUT_VECTOR = vec2_scl(&INPUT_VECTOR, 1 / entity->mass);
+    wall_colission(&player);
+    apply_net_force(&player, &INPUT_VECTOR);
+    apply_friction(&player);
+    break;
+  case MOMENTUM:
+    entity->velocity = vec2_scl(&INPUT_VECTOR, 1 / entity->mass);
+    break;
+  }
   update_kinematics(&player, (float)update_interval_in_ms / 1000);
 }
 void *physics_thread(void *args) {
