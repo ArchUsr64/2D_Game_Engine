@@ -53,7 +53,6 @@ void *physics_thread(void *args) {
     apply_net_force(&player, &INPUT_FORCE);
     apply_friction(&player);
     update_kinematics(&player, (float)update_interval_in_ms / 1000);
-    entity_to_entity_colission_detection(&player, &enemy);
     while (SDL_GetTicks() < start_time + update_interval_in_ms)
       SDL_Delay(1);
   }
