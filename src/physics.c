@@ -50,6 +50,7 @@ void handle_entity_mouse_input(Entity *entity) {
   if ((1 - (abs(MOUSE_VECTOR.y))) >= entity->collision_box.y)
     entity->position.y = MOUSE_VECTOR.y;
 }
+
 void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
   vec2 INPUT_VECTOR =
       vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT), ((int)KEY_UP - (int)KEY_DOWN));
@@ -66,6 +67,7 @@ void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
   }
   update_kinematics(&player, (float)update_interval_in_ms / 1000);
 }
+
 void *physics_thread(void *args) {
   int update_interval_in_ms = 1000 / PHYSICS_UPDATE_FREQUENCY;
   while (!USER_QUIT) {
