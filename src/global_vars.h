@@ -25,6 +25,7 @@ Entity player = {
     .render_collision_box = true,
     .texture_path = "res/3.bmp",
     .texture_ptr = NULL,
+    .movement_control_type = MOUSE,
 };
 
 SDL_Window *WINDOW_PTR;

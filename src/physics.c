@@ -43,16 +43,30 @@ bool entity_to_entity_colission_detection(Entity *entity_1, Entity *entity_2) {
   return false;
 }
 
+void handle_entity_mouse_input(Entity *entity) {
+	vec2 MOUSE_VECTOR = vec2_new(MOUSE_X, MOUSE_Y);
+	entity->position = MOUSE_VECTOR;
+}
+void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) { 
+    vec2 INPUT_VECTOR = vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT),
+                                ((int)KEY_UP - (int)KEY_DOWN));
+    wall_colission(&player);
+    apply_net_force(&player, &INPUT_VECTOR);
+    apply_friction(&player);
+    update_kinematics(&player, (float)update_interval_in_ms / 1000);
+	}
 void *physics_thread(void *args) {
   int update_interval_in_ms = 1000 / PHYSICS_UPDATE_FREQUENCY;
   while (!USER_QUIT) {
     int start_time = SDL_GetTicks();
-    wall_colission(&player);
-    vec2 INPUT_FORCE = vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT),
-                                ((int)KEY_UP - (int)KEY_DOWN));
-    apply_net_force(&player, &INPUT_FORCE);
-    apply_friction(&player);
-    update_kinematics(&player, (float)update_interval_in_ms / 1000);
+    switch (player.movement_control_type) {
+    case MOUSE:
+      handle_entity_mouse_input(&player);
+      break;
+    case KEYBOARD:
+      handle_entity_keyboard_input(&player, update_interval_in_ms);
+      break;
+    }
     while (SDL_GetTicks() < start_time + update_interval_in_ms)
       SDL_Delay(1);
   }
