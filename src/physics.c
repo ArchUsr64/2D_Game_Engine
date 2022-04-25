@@ -45,7 +45,10 @@ bool entity_to_entity_colission_detection(Entity *entity_1, Entity *entity_2) {
 
 void handle_entity_mouse_input(Entity *entity) {
   vec2 MOUSE_VECTOR = vec2_new(MOUSE_X, MOUSE_Y);
-  entity->position = MOUSE_VECTOR;
+  if ((1 - (abs(MOUSE_VECTOR.x))) >= entity->collision_box.x)
+    entity->position.x = MOUSE_VECTOR.x;
+  if ((1 - (abs(MOUSE_VECTOR.y))) >= entity->collision_box.y)
+    entity->position.y = MOUSE_VECTOR.y;
 }
 
 void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
