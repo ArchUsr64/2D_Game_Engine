@@ -46,3 +46,16 @@ void draw_line(float point_1_x, float point_1_y, float point_2_x,
                float point_2_y) {
   SDL_RenderDrawLine(RENDERER_PTR, point_1_x, point_1_y, point_2_x, point_2_y);
 }
+
+void render_entity(Entity *entity) {
+  SDL_Rect entity_rect;
+  entity_rect.w = map_to_range(entity->collision_box.x, 0, 1, 0, WINDOW_WIDTH);
+  entity_rect.h = map_to_range(entity->collision_box.y, 0, 1, 0, WINDOW_HEIGHT);
+  entity_rect.x = map_to_range(entity->position.x, -1, 1, 0, WINDOW_WIDTH);
+  entity_rect.y = map_to_range(entity->position.y, -1, 1, WINDOW_HEIGHT, 0);
+  entity_rect.x -= entity_rect.w / 2;
+  entity_rect.y -= entity_rect.h / 2;
+  SDL_SetRenderDrawColor(RENDERER_PTR, 255, 255, 255, 255);
+  SDL_RenderDrawRect(RENDERER_PTR, &entity_rect);
+  SDL_SetRenderDrawColor(RENDERER_PTR, 0, 0, 0, 255);
+}
