@@ -11,19 +11,6 @@
 #include "util.c"
 #include "vector.c"
 
-void render_entity(Entity *entity) {
-  SDL_Rect entity_rect;
-  entity_rect.w = map_to_range(entity->collision_box.x, 0, 1, 0, WINDOW_WIDTH);
-  entity_rect.h = map_to_range(entity->collision_box.y, 0, 1, 0, WINDOW_HEIGHT);
-  entity_rect.x = map_to_range(entity->position.x, -1, 1, 0, WINDOW_WIDTH);
-  entity_rect.y = map_to_range(entity->position.y, -1, 1, WINDOW_HEIGHT, 0);
-  entity_rect.x -= entity_rect.w / 2;
-  entity_rect.y -= entity_rect.h / 2;
-  SDL_SetRenderDrawColor(RENDERER_PTR, 255, 255, 255, 255);
-  SDL_RenderDrawRect(RENDERER_PTR, &entity_rect);
-  SDL_SetRenderDrawColor(RENDERER_PTR, 0, 0, 0, 255);
-}
-
 int main() {
   if (!sdl_init())
     return -1;
@@ -31,15 +18,15 @@ int main() {
   pthread_create(&input_thread_id, NULL, input_thread, NULL);
   pthread_t physics_thread_id;
   pthread_create(&physics_thread_id, NULL, physics_thread, NULL);
-  while (!USER_QUIT) {
+  while (!USER_QUIT && !RUNTIME_ERROR) {
+    set_draw_colour(0, 0, 0, 1);
     SDL_RenderClear(RENDERER_PTR);
     render_entity(&player);
-    render_entity(&enemy);
     set_draw_colour(1, 1, 1, 1);
     SDL_RenderPresent(RENDERER_PTR);
-    set_draw_colour(0, 0, 0, 1);
   }
+  sdl_quit();
   pthread_join(input_thread_id, NULL);
   pthread_join(physics_thread_id, NULL);
-  return 0;
+  return (RUNTIME_ERROR)? -1: 0;
 }
