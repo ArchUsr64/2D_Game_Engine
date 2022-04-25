@@ -44,17 +44,20 @@ bool entity_to_entity_colission_detection(Entity *entity_1, Entity *entity_2) {
 }
 
 void handle_entity_mouse_input(Entity *entity) {
-	vec2 MOUSE_VECTOR = vec2_new(MOUSE_X, MOUSE_Y);
-	entity->position = MOUSE_VECTOR;
+  vec2 MOUSE_VECTOR = vec2_new(MOUSE_X, MOUSE_Y);
+  if ((1 - (abs(MOUSE_VECTOR.x))) >= entity->collision_box.x)
+    entity->position.x = MOUSE_VECTOR.x;
+  if ((1 - (abs(MOUSE_VECTOR.y))) >= entity->collision_box.y)
+    entity->position.y = MOUSE_VECTOR.y;
 }
-void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) { 
-    vec2 INPUT_VECTOR = vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT),
-                                ((int)KEY_UP - (int)KEY_DOWN));
-    wall_colission(&player);
-    apply_net_force(&player, &INPUT_VECTOR);
-    apply_friction(&player);
-    update_kinematics(&player, (float)update_interval_in_ms / 1000);
-	}
+void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
+  vec2 INPUT_VECTOR =
+      vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT), ((int)KEY_UP - (int)KEY_DOWN));
+  wall_colission(&player);
+  apply_net_force(&player, &INPUT_VECTOR);
+  apply_friction(&player);
+  update_kinematics(&player, (float)update_interval_in_ms / 1000);
+}
 void *physics_thread(void *args) {
   int update_interval_in_ms = 1000 / PHYSICS_UPDATE_FREQUENCY;
   while (!USER_QUIT) {
