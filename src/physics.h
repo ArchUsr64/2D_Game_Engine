@@ -7,6 +7,8 @@
 typedef enum keyboard_control_type {FORCE, MOMENTUM,} Keyboard_control_type;
 typedef enum movement_control_type {KEYBOARD, MOUSE,} Movement_control_type;
 
+int update_interval_in_ms;
+
 typedef struct entity {
   vec2 position;
   vec2 velocity;

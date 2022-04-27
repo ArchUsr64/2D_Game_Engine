@@ -25,9 +25,10 @@ void apply_net_force(Entity *entity, vec2 *net_force) {
   entity->acceleration = *net_force;
 }
 
-void update_kinematics(Entity *entity, float update_interval) {
-  vec2 acceleration_scaled = vec2_scl(&entity->acceleration, update_interval);
-  vec2 velocity_scaled = vec2_scl(&entity->velocity, update_interval);
+void update_kinematics(Entity *entity) {
+  vec2 acceleration_scaled =
+      vec2_scl(&entity->acceleration, update_interval_in_ms);
+  vec2 velocity_scaled = vec2_scl(&entity->velocity, update_interval_in_ms);
   entity->velocity = vec2_add(&entity->velocity, &acceleration_scaled);
   entity->position = vec2_add(&entity->position, &velocity_scaled);
 }
@@ -53,7 +54,7 @@ void handle_entity_mouse_input(Entity *entity) {
     entity->position.y = MOUSE_VECTOR.y;
 }
 
-void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
+void handle_entity_keyboard_input(Entity *entity) {
   vec2 INPUT_VECTOR =
       vec2_new(((int)KEY_RIGHT - (int)KEY_LEFT), ((int)KEY_UP - (int)KEY_DOWN));
   switch (entity->keyboard_control_type) {
@@ -67,7 +68,7 @@ void handle_entity_keyboard_input(Entity *entity, int update_interval_in_ms) {
     entity->velocity = vec2_scl(&INPUT_VECTOR, 1 / entity->mass);
     break;
   }
-  update_kinematics(&player, (float)update_interval_in_ms / 1000);
+  update_kinematics(&player);
 }
 
 void *physics_thread(void *args) {
@@ -79,7 +80,7 @@ void *physics_thread(void *args) {
       handle_entity_mouse_input(&player);
       break;
     case KEYBOARD:
-      handle_entity_keyboard_input(&player, update_interval_in_ms);
+      handle_entity_keyboard_input(&player);
       break;
     }
     while (SDL_GetTicks() < start_time + update_interval_in_ms)
