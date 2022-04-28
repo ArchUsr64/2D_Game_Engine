@@ -6,23 +6,20 @@
 
 bool sdl_init() {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    printf("Failed to initialise SDL: %s", SDL_GetError());
-    pl;
+    printf("Failed to initialise SDL: %s\n", SDL_GetError());
     return false;
   }
   WINDOW_PTR =
       SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                        WINDOW_WIDTH, WINDOW_HEIGHT, 0);
   if (!WINDOW_PTR) {
-    printf("Failed to create window: %s", SDL_GetError());
-    pl;
+    printf("Failed to create window: %s\n", SDL_GetError());
     return false;
   }
   RENDERER_PTR = SDL_CreateRenderer(
       WINDOW_PTR, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (!RENDERER_PTR) {
-    printf("Failed to create renderer: %s", SDL_GetError());
-    pl;
+    printf("Failed to create renderer: %s\n", SDL_GetError());
     return false;
   }
   return true;
@@ -62,16 +59,14 @@ void render_entity(Entity *entity) {
   if (!entity->texture_ptr) {
     SDL_Surface *image_surface_ptr = SDL_LoadBMP(entity->texture_path);
     if (!image_surface_ptr) {
-      printf("Failed to load '%s': %s", entity->texture_path, SDL_GetError());
-      pl;
+      printf("Failed to load '%s': %s\n", entity->texture_path, SDL_GetError());
       RUNTIME_ERROR = true;
     }
     entity->texture_ptr =
         SDL_CreateTextureFromSurface(RENDERER_PTR, image_surface_ptr);
     SDL_FreeSurface(image_surface_ptr);
     if (!entity->texture_ptr) {
-      printf("Failed to created texture: %s", SDL_GetError());
-      pl;
+      printf("Failed to created texture: %s\n", SDL_GetError());
       RUNTIME_ERROR = true;
     }
   }
