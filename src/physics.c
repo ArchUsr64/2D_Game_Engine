@@ -60,15 +60,15 @@ void handle_entity_keyboard_input(Entity *entity) {
   switch (entity->keyboard_control_type) {
   case FORCE:
     INPUT_VECTOR = vec2_scl(&INPUT_VECTOR, 1 / entity->mass);
-    wall_colission(&player);
-    apply_net_force(&player, &INPUT_VECTOR);
-    apply_friction(&player);
+    wall_colission(entity);
+    apply_net_force(entity, &INPUT_VECTOR);
+    apply_friction(entity);
     break;
   case MOMENTUM:
     entity->velocity = vec2_scl(&INPUT_VECTOR, 1 / entity->mass);
     break;
   }
-  update_kinematics(&player);
+  update_kinematics(entity);
 }
 
 void *physics_thread(void *args) {
